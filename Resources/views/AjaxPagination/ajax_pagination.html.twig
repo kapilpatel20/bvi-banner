@@ -1,0 +1,96 @@
+{#
+/**
+ * @file
+ * Twitter Bootstrap Sliding pagination control implementation.
+ *
+ * View that can be used with the pagination module
+ * from the Twitter Bootstrap CSS Toolkit
+ * http://twitter.github.com/bootstrap/
+ *
+ * This view has been ported from Pagerfanta progect
+ * https://github.com/whiteoctober/Pagerfanta/
+ * https://github.com/whiteoctober/Pagerfanta/blob/master/src/Pagerfanta/View/TwitterBootstrapView.php
+ *
+ * @author Pablo Díez <pablodip@gmail.com>
+ * @author Jan Sorgalla <jsorgalla@gmail.com>
+ * @author Artem Ponomarenko <imenem@inbox.ru>
+ */
+#}
+ 
+   <div class="row">
+        <div class="col-sm-5">
+            {#<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{firstItemNumber}} to {{lastItemNumber}} of {{totalCount}} entries</div>#}
+        </div>
+       {% if pageCount > 1 %} 
+        <div class="col-sm-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                <ul class="pagination">
+
+                    {% if previous is defined %}
+                        <li class="paginate_button">
+                            <a href="javascript://"  onclick=ajaxPagination('{{ previous }}')>&nbsp;{{ 'Previous'|trans }}</a>
+                        </li>
+                    {% else %}
+                        <li class="pagiPrev paginate_button disabled" id="DataTables_Table_0_previous">
+                            <a href="javascript://" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">&nbsp;{{ 'Previous'|trans }}</a>
+                        </li>
+                    {% endif %}
+
+                    {% if startPage > 1 %}
+                        <li class="paginate_button">
+                            <a href="javascript://" onclick=ajaxPagination('1')>1</a>
+                        </li>
+                        {% if startPage == 3 %}
+                            <li class="paginate_button">
+                                <a href="javascript://" onclick=ajaxPagination('2')>2</a>
+                            </li>
+                        {% elseif startPage != 2 %}
+                            <li class="pagiPrev paginate_button">
+                                <a href="javascript://">&hellip;</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% for page in pagesInRange %}
+                        {% if page != current %}
+                            <li class="paginate_button">
+                                <a href="javascript://" onclick=ajaxPagination('{{ page }}')>{{ page }}</a>
+                            </li>
+                        {% else %}
+                            <li class="current paginate_button">
+                                <a href="javascript://" onclick=ajaxPagination('{{ page }}')>{{ page }}</a>
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                    {% if pageCount > endPage %}
+                        {% if pageCount > (endPage + 1) %}
+                            {% if pageCount > (endPage + 2) %}
+                                <li class="pagiPrev paginate_button">
+                                    <a href="#">&hellip;</a>
+                                </li>
+                            {% else %}
+                                <li class="paginate_button">
+                                    <a href="javascript://" onclick=ajaxPagination('{{ pageCount -1 }}')>{{ pageCount -1 }}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                        <li class="paginate_button">
+                            <a href="javascript://" onclick=ajaxPagination('{{ pageCount }}')>{{ pageCount }}</a>
+                        </li>
+                    {% endif %}
+
+                    {% if next is defined %}
+                        <li class="paginate_button">
+                            <a href="javascript://" onclick=ajaxPagination('{{next}}')>{{ 'Next'|trans }}&nbsp;</a>
+                        </li>
+                    {% else %}
+                        <li class="pagiPrev paginate_button disabled">
+                            <a href="javascript://">{{ 'Next'|trans }}&nbsp;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endif %}

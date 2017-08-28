@@ -1,0 +1,24 @@
+BviBannerBundle\Entity\Banner:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [title]
+            message: "Title already exists."
+    properties:
+        image:
+           - NotBlank:
+                message: "Please upload banner."
+           - Image:
+                minWidth: 600
+                minWidthMessage: Please upload only image with dimensions 600x400 (WxH).
+                minHeight: 400
+                minHeightMessage: Please upload only image with dimensions 600x400 (WxH).
+                maxSize: 2M
+                maxSizeMessage: Maximum image size allowed is 2Mb.
+                mimeTypes: [image/jpg, image/jpeg, image/png, image/gif, image/svg+xml]
+                mimeTypesMessage: Please upload only (png/gif/jpg/jpeg/svg) format image.
+        title:
+           - NotBlank:
+                message: "Please enter title."
+        status:
+            - NotBlank:
+                message: "Please select status."

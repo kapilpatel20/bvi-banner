@@ -1,0 +1,48 @@
+{% block title %}Add Banner Page{% endblock title %}
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>Add Banner Page</h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ path('bvi_banner_list') }}">Back to List</a></li>
+                <li class="active">Add Banner Page</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Default box -->
+                    <div class="box box-primary">
+                        <form action="{{ path('bvi_banner_new')}}" method="POST" id="bannerForm" role="form" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-9 no-padding-left">
+                                        <div class="form-group col-md-6">
+                                            <label for="banner_page_slug">Title <span class="required">*</span></label>
+                                            {{ form_widget(form.title, { 'attr': { 'placeholder': 'Please enter Title', 'class': 'form-control'}}) }}
+                                            <span class="text-danger">{% if form_errors(form.title) %}{{ form_errors(form.title) }}{% endif %}</span>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6">
+                                            <label for="banner_page_content">Banner <span class="required">*</span></label>
+                                            {{ form_widget(form.image, { 'attr': { 'placeholder': 'Please upload banner', 'class': 'form-control'}}) }}
+                                            <span class="text-danger">{% if form_errors(form.image) %}{{ form_errors(form.image) }}{% endif %}</span>
+                                        </div>
+                                     {{ form_rest(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">	
+                                <div class="pull-right hidden-xs">
+                                     <div class="formnotes">* denotes required field</div>
+                                </div><br/>
+                                <input type="submit" value="Save" class="btn btn-primary">  
+                                <a onClick="location.href = '{{ path('bvi_banner_list') }}'" class="btn btn-default"> Cancel </a>
+                            </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock body %}

@@ -1,0 +1,15 @@
+bvi_banner_list:
+    path:     /list
+    defaults: { _controller: BviBannerBundle:Banner:index }
+
+bvi_banner_new:
+    path:     /new
+    defaults: { _controller: BviBannerBundle:Banner:new }
+    
+bvi_banner_edit:
+    path:     /edit/{id}
+    defaults: { _controller: BviBannerBundle:Banner:edit }
+    
+bvi_banner_update_status:
+    path:     /update-status
+    defaults: { _controller: BviBannerBundle:Banner:updateStatus }    

@@ -1,0 +1,148 @@
+{% block title %}Banner List{% endblock title %}
+
+{% block body %}
+    <div class="content-wrapper" style="min-height: 1009px;">
+        <section class="content-header">
+            <h1>Banner List</h1>
+            <a href="{{ path('bvi_banner_new') }}">Add New</a>
+        </section>
+        <section class="content-header">
+          <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="box box-primary">   
+                        <div class="box-body">
+                           <form name="filter" id="filter">
+                               <input type="hidden" id="pageno" name="pageno" value="1"/>
+                               <input type="hidden" id="sortBy" name="sortBy"/>
+                               <input type="hidden" id="sortOrd" name="sortOrd"/>
+                                  <div class="row">
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                      <label for="exampleInputsubject">Title</label>
+                                      <div><input type="text" name="title" placeholder="Search Question"></div>
+                                    </div>
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                      <label>Status</label>
+                                      <div>
+                                        <select class="form-control selectpicker" id="status" name="status">
+                                          <option value="">Status</option>
+                                          <option value="Active">Active</option>
+                                          <option value="Inactive">Inactive</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                      <input type="button" value="Filter" id="btnFilter">
+                                    </div>
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                      <div>
+                                        <input type="button" value="Reset" id="btnReset">
+                                      </div>
+                                    </div>
+                                  </div>
+                              </form>
+                        </div>
+                    </div>
+                </div>   
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="box box-primary">   
+                        <div class="box-body">
+                            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="emailTemplateList" class="table minfullWidth table-bordered table-striped amenities_mangt dataTable no-footer" role="grid" aria-describedby="example1_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th width="5"><a href="javascript://" class="sort-links" sort-by="id" sort-ord="asc">#Id</a></th>
+                                                    <th><a href="javascript://" class="sort-links" sort-by="title" sort-ord="asc">title</a></th>
+                                                    <th>Banner</th>
+                                                    <th><a href="javascript://" class="sort-links" sort-by="status" sort-ord="asc">Status</a></th>
+                                                    <th><a href="javascript://" class="sort-links" sort-by="createdat" sort-ord="asc">Created at</a></th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="lstView">
+                                                {% include 'BviBannerBundle:Banner:_list.html.twig' with {'lstObj' : lstObj} %}
+                                            </tbody>     
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    
+ <script src="{{ asset('bundles/bviBanner/js/jquery-1.12.4.min.js') }}"></script>
+ <script type="text/javascript">
+    
+    $(function () {
+        $("#btnFilter").click(function () {
+            ajaxPagination($("#pageno").val());
+        });
+        $("#btnReset").click(function () {
+            $('#filter')[0].reset();
+            ajaxPagination(1);
+        });
+        $(".sort-links").click(function () {
+           sortBy  = $(this).attr('sort-by');
+           sortOrd = $(this).attr('sort-ord');
+           $("#sortBy").val(sortBy);
+           $("#sortOrd").val(sortOrd);
+           if(sortOrd == 'asc') {
+               $(this).attr('sort-ord','desc');
+           }else{
+               $(this).attr('sort-ord','asc');
+           }
+           ajaxPagination($("#pageno").val());
+           
+        });
+    });
+    
+    function ajaxPagination(pageno) {
+            
+            $("#pageno").val(pageno);
+            $.ajax({
+             url: "{{path('bvi_banner_list')}}" + "?page=" + pageno,
+             type: "POST",
+             dataType: 'json',
+             data: $('#filter').serialize(),
+             beforeSend: function () {
+                $("#middleLoader").show();
+             },
+             success: function (result) {
+                $("#middleLoader").hide();
+                $('#lstView').html(result.listView);
+             }
+          });
+    }
+    
+    function updateStatus(id) {
+    
+        $.ajax({
+             url: "{{path('bvi_banner_update_status')}}"+ "?id=" + id,
+             type: "GET",
+             dataType: 'json',
+             beforeSend: function () {
+                $("#middleLoader").show();
+             },
+             success: function () {
+                $("#middleLoader").hide();
+                ajaxPagination($("#pageno").val());
+             }
+          });
+    }
+        
+ </script>
+    
+
+{% endblock javascripts %}
