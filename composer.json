@@ -1,0 +1,22 @@
+{
+    "name": "kapilpatel20/bvi-banner",
+    "description": "banner Management with crud options",
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/kapilpatel20/bvi-banner",
+    "authors": [{
+            "name": "Jainil Rajwaniya",
+            "email": "jainil.rajwaniya@gmail.com"
+        }],
+    "keywords": [
+        "banner page"
+    ],
+    "license": "proprietary",
+    "require": {
+        "knplabs/knp-paginator-bundle": "^2.6",
+        "kapilpatel20/bvi-banner": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"BvibannerBundle\\": ""}
+    },
+    "minimum-stability": "dev"
+}
