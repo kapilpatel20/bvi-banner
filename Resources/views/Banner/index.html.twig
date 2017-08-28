@@ -40,6 +40,11 @@
                                         <input type="button" value="Reset" id="btnReset">
                                       </div>
                                     </div>
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                      <div>
+                                        <input type="button" value="Sort" id="btnSort">
+                                      </div>
+                                    </div>  
                                   </div>
                               </form>
                         </div>
@@ -61,6 +66,7 @@
                                                     <th><a href="javascript://" class="sort-links" sort-by="title" sort-ord="asc">title</a></th>
                                                     <th>Banner</th>
                                                     <th><a href="javascript://" class="sort-links" sort-by="status" sort-ord="asc">Status</a></th>
+                                                    <th><a href="javascript://" class="sort-links" sort-by="sequence" sort-ord="asc">Order</a></th>
                                                     <th><a href="javascript://" class="sort-links" sort-by="createdat" sort-ord="asc">Created at</a></th>
                                                     <th>Action</th>
                                                 </tr>
@@ -83,6 +89,7 @@
 {% block javascripts %}
     
  <script src="{{ asset('bundles/bviBanner/js/jquery-1.12.4.min.js') }}"></script>
+ <script src="{{ asset('bundles/bviBanner/js/jquery-ui.1.12.1.js') }}"></script>
  <script type="text/javascript">
     
     $(function () {
@@ -105,6 +112,17 @@
            }
            ajaxPagination($("#pageno").val());
            
+        });
+        
+        
+    
+        $( "#lstView" ).sortable({
+            placeholder: "ui-state-highlight"
+        });
+        $( "#lstView" ).disableSelection();
+
+        $('#btnSort').click(function(){
+            sortBanner();
         });
     });
     
@@ -141,6 +159,31 @@
              }
           });
     }
+
+    function sortBanner() {
+    
+        var ordStr = '';
+        
+        $('#lstView tr').each(function(){
+            ordStr += $(this).attr('bid')+'###';
+        });
+
+        var data = {"ordStr":ordStr};
+        $.ajax({
+             url: "{{path('bvi_banner_update_order')}}",
+             type: "GET",
+             dataType: 'json',
+             data : data,
+             beforeSend: function () {
+                $("#middleLoader").show();
+             },
+             success: function () {
+                $("#middleLoader").hide();
+                ajaxPagination($("#pageno").val());
+             }
+          });
+    }
+    
         
  </script>
     

@@ -13,3 +13,7 @@ bvi_banner_edit:
 bvi_banner_update_status:
     path:     /update-status
     defaults: { _controller: BviBannerBundle:Banner:updateStatus }    
+
+bvi_banner_update_order:
+    path:     /update-order
+    defaults: { _controller: BviBannerBundle:Banner:updateOrder }    

@@ -1,6 +1,6 @@
 <?php
 
-namespace BviBannerBundle\Entity;
+namespace Bvi\BannerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Banner
  *
  * @ORM\Table(name="banner")
- * @ORM\Entity(repositoryClass="BviBannerBundle\Repository\BannerRepository")
+ * @ORM\Entity(repositoryClass="Bvi\BannerBundle\Repository\BannerRepository")
  */
 class Banner
 {
@@ -34,6 +34,12 @@ class Banner
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     protected $image;
+    
+    /**
+     * @var int
+     * @ORM\Column(name="sequence", type="integer")
+     */
+    protected $sequence = 999;
     
     /**
      * @var string
@@ -289,5 +295,30 @@ class Banner
         if (!is_dir(__DIR__ . '/../../../../web/uploads/banners'  )) {
             mkdir(__DIR__ . '/../../../../web/banners' , 0777);
         }
+    }
+
+    
+
+    /**
+     * Set sequence
+     *
+     * @param integer $sequence
+     * @return Banner
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * Get sequence
+     *
+     * @return integer 
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
     }
 }

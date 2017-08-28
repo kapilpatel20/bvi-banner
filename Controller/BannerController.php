@@ -1,12 +1,12 @@
 <?php
 
-namespace BviBannerBundle\Controller;
+namespace Bvi\BannerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use BviBannerBundle\Form\BannerForm;
-use BviBannerBundle\Entity\Banner;
+use Bvi\BannerBundle\Form\BannerForm;
+use Bvi\BannerBundle\Entity\Banner;
 use DateTime;
 
 /**
@@ -164,5 +164,31 @@ class BannerController extends Controller
         $output['msg']     = 'Record updated successfully';
         $response          = new Response(json_encode($output));
         return $response;
+    }
+
+    public function updateOrderAction(Request $request)
+    {
+        
+        $em     = $this->getDoctrine()->getManager();
+        $ordStr = trim($request->get('ordStr'), '###');
+       
+        $arrOrd = explode('###',$ordStr);
+
+        $success= false;
+        
+        foreach($arrOrd as $key => $val)
+        {
+            $objBanner = $em->getRepository('BviBannerBundle:Banner')->find($val);
+            $objBanner->setSequence($key+1);
+            $em->persist($objBanner);
+            $em->flush();
+        }
+        
+        $output['success'] = $success;
+        $output['msg']     = 'Order changed successfully';
+        $response          = new Response(json_encode($output));
+        return $response;
     }    
+    
+    
 }
