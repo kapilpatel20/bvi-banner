@@ -16,7 +16,7 @@
         "kapilpatel20/bvi-banner": "dev-master"
     },
     "autoload": {
-        "psr-4": {"BvibannerBundle\\": ""}
+        "psr-4": {"BviBannerBundle\\": ""}
     },
     "minimum-stability": "dev"
 }
